@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Turtle_Ship</string>
+    <string name="hint_signin">Email hoặc số điện thoại</string>
+    <string name="hint_pass">Mật khẩu</string>
+</resources>

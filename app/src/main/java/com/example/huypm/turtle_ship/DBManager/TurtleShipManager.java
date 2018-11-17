@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.huypm.turtle_ship.model.Customer_Employee;
 import com.example.huypm.turtle_ship.model.Users;
 
 import java.util.ArrayList;
@@ -56,6 +57,57 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         }
         db.close();
         return listUser;
+
+
+    }
+    //Bảng Cus_Emp
+    private static final String TABLES_CusEmp = "Customer_Employee";
+    private static final String ID_cus = "Id";
+    private static final String Ten_cus= "Ten";
+    private static final String SDT_cus= "SDT";
+    private static final String Email_cus= "Email";
+    private static final String NV= "Nhanvien";
+    private String SQLQuery2 = "CREATE TABLE " + TABLES_CusEmp + " (" +
+                    ID_cus + " integer primary key," +
+                    Ten_cus + " String, " +
+                    SDT_cus + " String, " +
+                    Email_cus + " String, "+
+                    NV + " TEXT )";
+
+    // Thêm Emp_Cus
+    public void addCus_Emp(Customer_Employee customer_employee) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ID, customer_employee.getId());
+        values.put(Ten_cus, customer_employee.getTen());
+        values.put(SDT_cus, customer_employee.getSDT());
+        values.put(Email_cus, customer_employee.getEmail());
+        values.put(NV, customer_employee.getNV());
+        db.insert(TABLES_CusEmp, null, values);
+        db.close();
+    }
+
+    // Lấy tất cả Cus_Emp
+    public List<Customer_Employee> getAllCus_Emp() {
+        List<Customer_Employee> listCus = new ArrayList<>();
+
+        String selectquery = "SELECT * FROM " + TABLES_CusEmp;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectquery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                Customer_Employee cus_emp = new Customer_Employee();
+                cus_emp.setId(cursor.getInt(0));
+                cus_emp.setTen(cursor.getString(4));
+                cus_emp.setEmail(cursor.getString(3));
+                cus_emp.setSDT(cursor.getString(3));
+                cus_emp.setNV(cursor.getString(2));
+                listCus.add(cus_emp);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return listCus;
 
 
     }

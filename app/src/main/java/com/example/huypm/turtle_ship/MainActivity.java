@@ -26,6 +26,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button btn_test2 = (Button) findViewById(R.id.btn_fogot_pass);
+        btn_test2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),AnotherActivity.class);
+                startActivity(intent);
+            }
+        });
     }
     public void hideKeyboard(View view){
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);

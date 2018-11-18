@@ -5,7 +5,7 @@ public class Customer_Employee {
     private String Ten;
     private String SDT;
     private String Email;
-    private Boolean NV;
+    private String NV;
     public Customer_Employee(){}
 
     public int getId() {
@@ -40,15 +40,15 @@ public class Customer_Employee {
         Email = email;
     }
 
-    public Boolean getNV() {
+    public String getNV() {
         return NV;
     }
 
-    public void setNV(Boolean NV) {
+    public void setNV(String NV) {
         this.NV = NV;
     }
 
-    public Customer_Employee(int id, String ten, String sDT, String email, Boolean nv){
+    public Customer_Employee(int id, String ten, String sDT, String email, String nv){
         this.Id =id;
         this.Ten=ten;
         this.SDT=sDT;

@@ -2,34 +2,47 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-    <item android:title="cai gif co">
+    <item android:title="Công Việc">
         <menu>
         <group android:checkableBehavior="single">
             <item
-                android:id="@+id/nav_camera"
-                android:title="Import" />
+                android:id="@+id/DonHang"
+                android:title="Don Hang" />
             <item
-                android:id="@+id/nav_gallery"
-                android:title="Gallery" />
+                android:id="@+id/TheoDoiDH"
+                android:title="Theo doi don hang" />
             <item
-                android:id="@+id/nav_slideshow"
-                android:title="Slideshow" />
-            <item
-                android:id="@+id/nav_manage"
-                android:title="Tools" />
+                android:id="@+id/TaoDonHang"
+                android:title="Tao don hang" />
         </group>
         </menu>
     </item>
 
-    <item android:title="Communicate" >
+    <item android:title="Thanh Toán" >
         <menu>
             <group  android:checkableBehavior="single">
                 <item
-                    android:id="@+id/nav_share"
-                    android:title="Share" />
+                    android:id="@+id/CachTinhPhi"
+                    android:title="Cach Tinh Phi" />
                 <item
-                    android:id="@+id/nav_send"
-                    android:title="Send" />
+                    android:id="@+id/DonHangCTT"
+                    android:title="Don hang can thanh toan" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Ứng dụng">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/DangXuat"
+                    android:title="Đăng Xuất" />
+                <item
+                    android:id="@+id/ThongtinTK"
+                    android:title="Thông tin tài khoản" />
+                <item
+                    android:id="@+id/DoiMatKhau"
+                    android:title="Đổi Mật Khẩu" />
             </group>
         </menu>
     </item>

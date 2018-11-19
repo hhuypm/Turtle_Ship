@@ -1,16 +1,17 @@
 package com.example.huypm.turtle_ship.model;
 
 public class DiaChi {
-    private int Id;
-    private int Cus_Emp;
-    private String Tp;
-    private String Quan;
-    private String Phuong;
-    private String Duong;
-    private int GiaoNhan;
+    private int Id=-1;
+    private int Cus_Emp=-1;
+    private String Tp="";
+    private String Quan="";
+    private String Phuong="";
+    private String Duong="";
+    private int GiaoNhan=-1;
+    private int DCChinh=-1;
 
     public DiaChi(){}
-    public DiaChi(int id, int cus_Emp, String tp, String quan, String phuong, String duong, int giaoNhan){
+    public DiaChi(int id, int cus_Emp, String tp, String quan, String phuong, String duong, int giaoNhan,int dcchinh){
         this.Id=id;
         this.Cus_Emp=cus_Emp;
         this.Tp=tp;
@@ -18,6 +19,7 @@ public class DiaChi {
         this.Phuong=phuong;
         this.Duong=duong;
         this.GiaoNhan=giaoNhan;
+        this.DCChinh = dcchinh;
     }
     public int getId() {
         return Id;
@@ -73,5 +75,13 @@ public class DiaChi {
 
     public void setGiaoNhan(int giaoNhan) {
         GiaoNhan = giaoNhan;
+    }
+
+    public int getDCChinh() {
+        return DCChinh;
+    }
+
+    public void setDCChinh(int dcChinh) {
+        GiaoNhan = dcChinh;
     }
 }

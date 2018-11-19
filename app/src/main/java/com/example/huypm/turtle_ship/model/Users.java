@@ -1,9 +1,9 @@
 package com.example.huypm.turtle_ship.model;
 
 public class Users {
-    private int Id;
-    private int Cus_Emp;
-    private String Pass;
+    private int Id = -1;
+    private int Cus_Emp =-1;
+    private String Pass ="";
 
     public Users(){
     }

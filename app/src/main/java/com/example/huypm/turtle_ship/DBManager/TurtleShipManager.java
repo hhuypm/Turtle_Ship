@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.huypm.turtle_ship.model.Customer_Employee;
 import com.example.huypm.turtle_ship.model.Users;
@@ -30,11 +31,12 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     public void addUser(Users user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(ID, user.getId());
-        values.put(CUS_EMP, user.getCus_Emp());
-        values.put(PASS, user.getPass());
-
-        db.insert(TABLE_USERS, null, values);
+        if (user.getId() != -1){
+            values.put(ID, user.getId());
+            values.put(CUS_EMP, user.getCus_Emp());
+            values.put(PASS, user.getPass());
+            db.insert(TABLE_USERS, null, values);
+        }
         db.close();
     }
 
@@ -50,15 +52,24 @@ public class TurtleShipManager extends SQLiteOpenHelper {
             do {
                 Users user = new Users();
                 user.setId(cursor.getInt(0));
-                user.setCus_Emp(cursor.getInt(4));
-                user.setPass(cursor.getString(3));
+                user.setCus_Emp(cursor.getInt(1));
+                user.setPass(cursor.getString(2));
                 listUser.add(user);
             } while (cursor.moveToNext());
         }
         db.close();
         return listUser;
-
-
+    }
+    // Lay Max id User
+    public int MaxIdUser(){
+        int maxid = -1;
+        String selectquery = "SELECT max(id) FROM " + TABLE_USERS;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectquery, null);
+        if (cursor.moveToFirst())
+            if (cursor.getString(0)!= "")
+                maxid = Integer.parseInt(cursor.getString(0));
+        return maxid;
     }
     //Bảng Cus_Emp
     private static final String TABLES_CusEmp = "Customer_Employee";
@@ -72,18 +83,20 @@ public class TurtleShipManager extends SQLiteOpenHelper {
                     Ten_cus + " String, " +
                     SDT_cus + " String, " +
                     Email_cus + " String, "+
-                    NV + " TEXT )";
+                    NV + " BLOB )";
 
     // Thêm Emp_Cus
     public void addCus_Emp(Customer_Employee customer_employee) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(ID, customer_employee.getId());
-        values.put(Ten_cus, customer_employee.getTen());
-        values.put(SDT_cus, customer_employee.getSDT());
-        values.put(Email_cus, customer_employee.getEmail());
-        values.put(NV, customer_employee.getNV());
-        db.insert(TABLES_CusEmp, null, values);
+        if (customer_employee.getId() != -1) {
+            values.put(ID, customer_employee.getId());
+            values.put(Ten_cus, customer_employee.getTen());
+            values.put(SDT_cus, customer_employee.getSDT());
+            values.put(Email_cus, customer_employee.getEmail());
+            values.put(NV, customer_employee.getNV());
+            db.insert(TABLES_CusEmp, null, values);
+        }
         db.close();
     }
 
@@ -99,17 +112,47 @@ public class TurtleShipManager extends SQLiteOpenHelper {
             do {
                 Customer_Employee cus_emp = new Customer_Employee();
                 cus_emp.setId(cursor.getInt(0));
-                cus_emp.setTen(cursor.getString(4));
-                cus_emp.setEmail(cursor.getString(3));
+                cus_emp.setTen(cursor.getString(1));
+                cus_emp.setEmail(cursor.getString(2));
                 cus_emp.setSDT(cursor.getString(3));
-                cus_emp.setNV(cursor.getString(2));
+                cus_emp.setNV(cursor.getInt(4));
                 listCus.add(cus_emp);
             } while (cursor.moveToNext());
         }
         db.close();
         return listCus;
+    }
+    // Lay max id Cus_Emp
+    public int getMaxIdCus_Emp(){
+        int maxID = -1;
+        String selectQuery = "SELECT max(Id) FROM " +TABLES_CusEmp;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) != "")
+            maxID = Integer.parseInt(cursor.getString(0));
+        }
+        db.close();
+        return maxID;
+    }
 
 
+
+
+    // Dang nhap
+    public boolean Sign_in(String account, String pass){
+        String selectQuery = "Select * from " + TABLES_CusEmp+", "+TABLE_USERS +" where ("+TABLES_CusEmp+".SDT=\""+account+"\" or "+TABLES_CusEmp+".Email = \""+account+"\") and " +
+                TABLES_CusEmp+".Id ="+TABLE_USERS+".Cus_Emp and "+TABLE_USERS+".Pass = \""+pass+"\"" ;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) != "") {
+                db.close();
+                return true;
+            }
+        }
+        db.close();
+        return false;
     }
     public TurtleShipManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -118,6 +161,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQLQuery);
+        sqLiteDatabase.execSQL(SQLQuery2);
 
     }
 

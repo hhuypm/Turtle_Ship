@@ -1,21 +1,34 @@
 package com.example.huypm.turtle_ship;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.CheckBox;
+
+import com.example.huypm.turtle_ship.Fragments.order_step1;
 
 public class MainContent extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
+    int id_cus;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_screen);
+        Intent intent = getIntent();
+        id_cus = intent.getIntExtra("ID",-1);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,8 +81,10 @@ public class MainContent extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
 
         if (id == R.id.DonHang) {
+            fragment = new order_step1();
             // Handle the camera action
         } else if (id == R.id.TheoDoiDH) {
 
@@ -87,8 +102,19 @@ public class MainContent extends AppCompatActivity
 
         }
 
+        if (fragment != null){
+            Bundle bundle = new Bundle();
+            bundle.putInt("ID",id_cus);
+            fragment.setArguments(bundle);
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft =  fm.beginTransaction();
+            ft.replace(R.id.content_main,fragment);
+            ft.commit();
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

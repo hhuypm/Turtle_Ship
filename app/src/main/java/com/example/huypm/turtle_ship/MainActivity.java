@@ -40,8 +40,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // chỗ này là đăng nhập
-                if (db.Sign_in(et_account.getText().toString(),et_pass.getText().toString())) {
+                if (db.Sign_in(et_account.getText().toString(),et_pass.getText().toString())!= -1) {
+                    int id = db.Sign_in(et_account.getText().toString(),et_pass.getText().toString());
                     Intent intent = new Intent(getApplicationContext(), MainContent.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("ID",id);
+                    intent.putExtra("ID",id);
                     startActivity(intent);
                     Log.d("test","dung r");
                 }

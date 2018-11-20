@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
@@ -107,6 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
                     default:
                 }
                 spinner1.setAdapter(adapter1);
+                Log.d("testtt","thuwr");
             }
 
             @Override

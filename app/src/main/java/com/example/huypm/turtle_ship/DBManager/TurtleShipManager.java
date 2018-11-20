@@ -125,6 +125,26 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         db.close();
         return listCus;
     }
+    //Lay Cus_Emp teo id
+    public Customer_Employee getCus_Emp(int id) {
+        Customer_Employee customer_employee = new Customer_Employee();
+
+        String selectquery = "SELECT * FROM " + TABLES_CusEmp +" where id="+String.valueOf(id);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectquery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                customer_employee.setId(cursor.getInt(0));
+                customer_employee.setTen(cursor.getString(1));
+                customer_employee.setEmail(cursor.getString(2));
+                customer_employee.setSDT(cursor.getString(3));
+                customer_employee.setNV(cursor.getInt(4));
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return customer_employee;
+    }
     // Lay max id Cus_Emp
     public int getMaxIdCus_Emp(){
         int maxID = -1;
@@ -143,19 +163,19 @@ public class TurtleShipManager extends SQLiteOpenHelper {
 
 
     // Dang nhap
-    public boolean Sign_in(String account, String pass){
-        String selectQuery = "Select * from " + TABLES_CusEmp+", "+TABLE_USERS +" where ("+TABLES_CusEmp+".SDT=\""+account+"\" or "+TABLES_CusEmp+".Email = \""+account+"\") and " +
+    public int Sign_in(String account, String pass){
+        String selectQuery = "Select "+TABLES_CusEmp+".Id from " + TABLES_CusEmp+", "+TABLE_USERS +" where ("+TABLES_CusEmp+".SDT=\""+account+"\" or "+TABLES_CusEmp+".Email = \""+account+"\") and " +
                 TABLES_CusEmp+".Id ="+TABLE_USERS+".Cus_Emp and "+TABLE_USERS+".Pass = \""+pass+"\"" ;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             if (cursor.getString(0) != "") {
                 db.close();
-                return true;
+                return cursor.getInt(0);
             }
         }
         db.close();
-        return false;
+        return -1;
     }
 
     //Bảng DiaChi
@@ -192,6 +212,32 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         values.put(DCChinh, diaChi.getDCChinh());
         db.insert(TABLES_DiaChi, null, values);
         db.close();
+    }
+
+    //Lay dia chi theo id
+    public  List<DiaChi> getDiaChiId(int id){
+        List<DiaChi> listDiaChi = new ArrayList<>();
+
+        String selectquery = "SELECT * FROM " + TABLES_DiaChi +" where Cus_Emp="+ Integer.toString(id);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectquery, null);
+        if (cursor.moveToFirst()) {
+            do {
+                DiaChi diaChi = new DiaChi();
+                diaChi.setId(cursor.getInt(0));
+                diaChi.setCus_Emp(cursor.getInt(1));
+                diaChi.setTp(cursor.getString(2));
+                diaChi.setQuan(cursor.getString(3));
+                diaChi.setPhuong(cursor.getString(4));
+                diaChi.setDuong(cursor.getString(5));
+                diaChi.setGiaoNhan(cursor.getInt(6));
+                diaChi.setDCChinh(cursor.getInt(7));
+                listDiaChi.add(diaChi);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return listDiaChi;
     }
 
     // Lấy tất cả DiaChi
@@ -261,7 +307,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
             CaySo + " String, "+
             ThanhTien + " TEXT )";
 
-    // Thêm DiaChi
+    // Thêm DonHang
     public void addDonHang (DonHang donHang) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();

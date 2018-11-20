@@ -35,9 +35,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // chỗ này là đăng nhập
                 if (db.Sign_in(et_account.getText().toString(),et_pass.getText().toString())) {
                     Intent intent = new Intent(getApplicationContext(), MainContent.class);
                     startActivity(intent);

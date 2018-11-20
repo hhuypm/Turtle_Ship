@@ -16,6 +16,7 @@ import android.widget.Spinner;
 
 import com.example.huypm.turtle_ship.DBManager.TurtleShipManager;
 import com.example.huypm.turtle_ship.model.Customer_Employee;
+import com.example.huypm.turtle_ship.model.DiaChi;
 import com.example.huypm.turtle_ship.model.Users;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -26,6 +27,9 @@ public class RegisterActivity extends AppCompatActivity {
     EditText et_pass;
     EditText et_re_pass;
     EditText et_mail;
+    Spinner spn_district;
+    Spinner spn_state;
+    EditText et_address;
     Context context = this;
     TurtleShipManager db = new TurtleShipManager(this);
     @Override
@@ -35,15 +39,12 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.register_layout);
         FindViewByIds();
 
-        // Get a reference to the Spinner
-        Spinner spinner = (Spinner) findViewById(R.id.spn_district);
-
-        // Create an Adapter that holds a list of colors
+        // Bỏ quận vào
+        final Spinner spinner = (Spinner) findViewById(R.id.spn_district);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.District, R.layout.dropdown_item);
-
-        // Set the Adapter for the spinner
         spinner.setAdapter(adapter);
+        // Phường thay đổi theo quận
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -105,10 +106,6 @@ public class RegisterActivity extends AppCompatActivity {
                         break;
                     default:
                 }
-
-                // Create an Adapter that holds a list of colors
-
-                // Set the Adapter for the spinner
                 spinner1.setAdapter(adapter1);
             }
 
@@ -129,11 +126,15 @@ public class RegisterActivity extends AppCompatActivity {
         btn_accpect_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //chỗ này là đăng ký t mới chỉ có xét pass 2 cái giống nhau thôi. M làm cho t xét sdt thì chỉ được ghi số, còn gmail phải có @, còn nếu khó thì để sau chèn dialog vô chỗ else, còn thành công thì this.finish đó
                 if (et_pass.getText().toString().equals(et_re_pass.getText().toString())) {
                     int maxIdCus_emp = db.getMaxIdCus_Emp();
                     int maxIdUser = db.MaxIdUser();
+                    int maxIdAddress = db.getMaxidAdd();
+                    //Thêm vào cơ sở dữ liệu
                     db.addCus_Emp(new Customer_Employee(maxIdCus_emp + 1, et_name.getText().toString(), et_phone.getText().toString(), et_mail.getText().toString(), 0));
                     db.addUser(new Users(maxIdUser+1,maxIdCus_emp+1,et_pass.getText().toString()));
+                    db.addDiaChi(new DiaChi(maxIdAddress+1,maxIdCus_emp+1,"TP. Hồ Chí Minh",spn_district.getSelectedItem().toString(),spn_state.getSelectedItem().toString(),et_address.getText().toString(),1,1));
                     RegisterActivity.this.finish();
                 }
                 else {
@@ -153,6 +154,9 @@ public class RegisterActivity extends AppCompatActivity {
         et_mail = (EditText) findViewById(R.id.et_mail);
         et_pass = (EditText) findViewById(R.id.et_pass);
         et_re_pass = (EditText) findViewById(R.id.et_reenter_pass);
+        spn_district = (Spinner) findViewById(R.id.spn_district);
+        spn_state = (Spinner) findViewById(R.id.spn_state);
+        et_address = (EditText) findViewById(R.id.et_address);
     }
 
     public void hideKeyboard(View view){

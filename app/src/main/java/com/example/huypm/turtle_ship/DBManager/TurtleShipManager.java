@@ -70,7 +70,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectquery, null);
         if (cursor.moveToFirst())
-            if (cursor.getString(0)!= "")
+            if (cursor.getString(0)!= null)
                 maxid = Integer.parseInt(cursor.getString(0));
         return maxid;
     }
@@ -132,7 +132,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
-            if (cursor.getString(0) != "")
+            if (cursor.getString(0) != null)
             maxID = Integer.parseInt(cursor.getString(0));
         }
         db.close();
@@ -167,6 +167,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     private static final String Phuong= "Phuong";
     private static final String Duong= "Duong";
     private static final String GiaoNhan= "GianNhan";
+    private static final String DCChinh= "DCChinh";
     private String SQLQuery3 = "CREATE TABLE " + TABLES_DiaChi + " (" +
             ID_diachi + " integer primary key," +
             Cus_emp + " String, " +
@@ -174,7 +175,8 @@ public class TurtleShipManager extends SQLiteOpenHelper {
             Quan + " String, "+
             Phuong + " String, "+
             Duong + " String, "+
-            GiaoNhan + " TEXT )";
+            GiaoNhan + " integer, "+
+            DCChinh + " integer )";
 
     // Thêm DiaChi
     public void addDiaChi (DiaChi diaChi) {
@@ -187,6 +189,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         values.put(Phuong, diaChi.getPhuong());
         values.put(Duong, diaChi.getDuong());
         values.put(GiaoNhan, diaChi.getGiaoNhan());
+        values.put(DCChinh, diaChi.getDCChinh());
         db.insert(TABLES_DiaChi, null, values);
         db.close();
     }
@@ -203,12 +206,13 @@ public class TurtleShipManager extends SQLiteOpenHelper {
             do {
                 DiaChi diaChi = new DiaChi();
                 diaChi.setId(cursor.getInt(0));
-                diaChi.setCus_Emp(cursor.getInt(4));
-                diaChi.setTp(cursor.getString(3));
+                diaChi.setCus_Emp(cursor.getInt(1));
+                diaChi.setTp(cursor.getString(2));
                 diaChi.setQuan(cursor.getString(3));
-                diaChi.setPhuong(cursor.getString(2));
-                diaChi.setDuong(cursor.getString(2));
-                diaChi.setGiaoNhan(cursor.getInt(2));
+                diaChi.setPhuong(cursor.getString(4));
+                diaChi.setDuong(cursor.getString(5));
+                diaChi.setGiaoNhan(cursor.getInt(6));
+                diaChi.setDCChinh(cursor.getInt(7));
                 listDiaChi.add(diaChi);
             } while (cursor.moveToNext());
         }
@@ -217,6 +221,22 @@ public class TurtleShipManager extends SQLiteOpenHelper {
 
 
     }
+
+    //Lấy Id max cửa địa chỉ
+    public  int getMaxidAdd(){
+        int maxId=-1;
+        String selectQuery = "SELECT max(Id) FROM " +TABLES_DiaChi;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) != null)
+                maxId = Integer.parseInt(cursor.getString(0));
+        }
+        db.close();
+        return maxId;
+    }
+
+
     //Bảng DonHang
     private static final String TABLES_DonHang = "DonHang";
     private static final String ID_donhang = "Id";
@@ -352,7 +372,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(SQLQuery);
         sqLiteDatabase.execSQL(SQLQuery2);
-
+        sqLiteDatabase.execSQL(SQLQuery3);
     }
 
     @Override

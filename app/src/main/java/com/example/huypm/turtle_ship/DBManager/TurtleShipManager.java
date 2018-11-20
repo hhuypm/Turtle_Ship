@@ -11,9 +11,11 @@ import com.example.huypm.turtle_ship.model.ChiTietDonHang;
 import com.example.huypm.turtle_ship.model.Customer_Employee;
 import com.example.huypm.turtle_ship.model.DiaChi;
 import com.example.huypm.turtle_ship.model.DonHang;
+import com.example.huypm.turtle_ship.model.NguoiNhan;
 import com.example.huypm.turtle_ship.model.Users;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Date;
 public class TurtleShipManager extends SQLiteOpenHelper {
@@ -86,7 +88,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
                     Ten_cus + " String, " +
                     SDT_cus + " String, " +
                     Email_cus + " String, "+
-                    NV + " BLOB )";
+                    NV + " integer )";
 
     // Thêm Emp_Cus
     public void addCus_Emp(Customer_Employee customer_employee) {
@@ -160,6 +162,57 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     }
 
 
+    //bang Nguoi Nhan
+    private static final String TABLES_NguoiNhan = "NguoiNhan";
+    private static final String ID_nguoinhan = "Id";
+    private static final String Ten_nguoinhan= "Ten";
+    private static final String SDT_nguoinhan= "SDT";
+    private String SQLQuery6 = "CREATE TABLE " + TABLES_NguoiNhan + " (" +
+            ID_nguoinhan + " integer primary key," +
+            Ten_nguoinhan + " String, " +
+            SDT_nguoinhan + " String )" ;
+
+    // Thêm Nguoi Nhan
+    public void addNguoiNhan(NguoiNhan nguoiNhan) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        if (nguoiNhan.getId() != -1) {
+            values.put(ID, nguoiNhan.getId());
+            values.put(Ten_nguoinhan, nguoiNhan.getTen());
+            values.put(SDT_nguoinhan, nguoiNhan.getSDT());
+            db.insert(TABLES_NguoiNhan, null, values);
+        }
+        db.close();
+    }
+
+    // Lấy tất cả thong tin nguoi nhan theo id KhachHang
+    public Cursor getAllInfo_NguoiNhan(int id) {
+        List<Customer_Employee> listCus = new ArrayList<>();
+
+        String selectquery = "SELECT * FROM " + TABLES_NguoiNhan +","+TABLES_DiaChi+"where "+TABLES_DiaChi+".Id ="+String.valueOf(id)+" and "+TABLES_DiaChi+".GiaoNhan ="+TABLES_NguoiNhan+".Id";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectquery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) == null)
+                return null;
+        }
+        db.close();
+        return cursor;
+    }
+    // Lay max id NguoiNhan
+    public int getMaxIdNguoiNhan(){
+        int maxID = -1;
+        String selectQuery = "SELECT max(Id) FROM " +TABLES_NguoiNhan;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) != null)
+                maxID = Integer.parseInt(cursor.getString(0));
+        }
+        db.close();
+        return maxID;
+    }
 
 
     // Dang nhap
@@ -169,13 +222,28 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
-            if (cursor.getString(0) != "") {
+            if (cursor.getString(0) != null) {
                 db.close();
                 return cursor.getInt(0);
             }
         }
         db.close();
         return -1;
+    }
+
+    //Check đăng ký
+    public int Check_Register(String phone,String mail){
+        String selectQuery = "Select * from " +TABLES_CusEmp +" where SDT=\"" + phone+"\" or Email=\"" +mail +"\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) != null) {
+                db.close();
+                return cursor.getInt(0);
+            }
+        }
+        db.close();
+        return 1;
     }
 
     //Bảng DiaChi
@@ -385,6 +453,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         db.close();
     }
 
+
     // Lấy tất cả ChiTietDonHang
     public List<ChiTietDonHang> getAllCTDH() {
         List<ChiTietDonHang> listCTDH = new ArrayList<>();
@@ -410,6 +479,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
 
 
     }
+
     public TurtleShipManager(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
@@ -419,6 +489,11 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(SQLQuery);
         sqLiteDatabase.execSQL(SQLQuery2);
         sqLiteDatabase.execSQL(SQLQuery3);
+        sqLiteDatabase.execSQL(SQLQuery4);
+        sqLiteDatabase.execSQL(SQLQuery5);
+        sqLiteDatabase.execSQL(SQLQuery6);
+
+
     }
 
     @Override

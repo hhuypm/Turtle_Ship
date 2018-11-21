@@ -18,11 +18,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 
+import com.example.huypm.turtle_ship.Fragments.Orders;
 import com.example.huypm.turtle_ship.Fragments.order_step1;
+import com.example.huypm.turtle_ship.Fragments.order_step2;
 
 public class MainContent extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentManager{
     int id_cus;
+    Bundle bundle = new Bundle();
+    Bundle bundle2 = new Bundle();
+    private CheckBox cb_sent, cb_receive;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,11 +89,12 @@ public class MainContent extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.DonHang) {
-            fragment = new order_step1();
+            fragment = new Orders();
             // Handle the camera action
         } else if (id == R.id.TheoDoiDH) {
 
         } else if (id == R.id.TaoDonHang) {
+            fragment = new order_step1();
 
         } else if (id == R.id.CachTinhPhi) {
 
@@ -103,7 +109,7 @@ public class MainContent extends AppCompatActivity
         }
 
         if (fragment != null){
-            Bundle bundle = new Bundle();
+
             bundle.putInt("ID",id_cus);
             fragment.setArguments(bundle);
             FragmentManager fm = getSupportFragmentManager();
@@ -115,6 +121,33 @@ public class MainContent extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void onCheckboxClicked(View view) {
+        cb_sent = (CheckBox) findViewById(R.id.cb_sent);
+        cb_receive = (CheckBox) findViewById(R.id.cb_receive);
+
+        switch(view.getId()) {
+
+            case R.id.cb_sent:
+
+                cb_receive.setChecked(false);
+
+                break;
+
+            case R.id.cb_receive:
+
+                cb_sent.setChecked(false);
+
+                break;
+
+        }
+    }
+
+    @Override
+    public Bundle onDataSelected(Bundle bd,String key,String data) {
+        bd.putString(key,data);
+        return bd;
     }
 
 }

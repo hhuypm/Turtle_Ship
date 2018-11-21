@@ -1,12 +1,12 @@
 package com.example.huypm.turtle_ship.model;
 
 public class ChiTietDonHang {
-    private int Id;
-    private String Hinhanh;
-    private String Mota;
-    private String Dinhgia;
-    private int Khoiluong;
-    private int Soluong;
+    private int Id=-1;
+    private String Hinhanh="";
+    private String Mota="";
+    private String Dinhgia="";
+    private int Khoiluong=-1;
+    private int Soluong=-1;
 
     public ChiTietDonHang(){}
     public ChiTietDonHang(int id, String hinhanh, String mota, String dinhgia, int khoiluong, int soluong){

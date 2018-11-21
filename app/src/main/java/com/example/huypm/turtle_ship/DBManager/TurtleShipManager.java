@@ -139,8 +139,8 @@ public class TurtleShipManager extends SQLiteOpenHelper {
             do {
                 customer_employee.setId(cursor.getInt(0));
                 customer_employee.setTen(cursor.getString(1));
-                customer_employee.setEmail(cursor.getString(2));
-                customer_employee.setSDT(cursor.getString(3));
+                customer_employee.setEmail(cursor.getString(3));
+                customer_employee.setSDT(cursor.getString(2));
                 customer_employee.setNV(cursor.getInt(4));
             } while (cursor.moveToNext());
         }
@@ -189,7 +189,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     public Cursor getAllInfo_NguoiNhan(int id) {
         List<Customer_Employee> listCus = new ArrayList<>();
 
-        String selectquery = "SELECT * FROM " + TABLES_NguoiNhan +","+TABLES_DiaChi+"where "+TABLES_DiaChi+".Id ="+String.valueOf(id)+" and "+TABLES_DiaChi+".GiaoNhan ="+TABLES_NguoiNhan+".Id";
+        String selectquery = "SELECT distinct("+TABLES_NguoiNhan+".*) FROM " + TABLES_NguoiNhan +","+TABLES_DiaChi+"where "+TABLES_DiaChi+".Id ="+String.valueOf(id)+" and "+TABLES_DiaChi+".GiaoNhan ="+TABLES_NguoiNhan+".Id";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectquery, null);
@@ -254,7 +254,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     private static final String Quan= "Quan";
     private static final String Phuong= "Phuong";
     private static final String Duong= "Duong";
-    private static final String GiaoNhan= "GianNhan";
+    private static final String GiaoNhan= "GiaoNhan";
     private static final String DCChinh= "DCChinh";
     private String SQLQuery3 = "CREATE TABLE " + TABLES_DiaChi + " (" +
             ID_diachi + " integer primary key," +
@@ -282,11 +282,11 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         db.close();
     }
 
-    //Lay dia chi theo id
+    //Lay dia chi theo id khach hang
     public  List<DiaChi> getDiaChiId(int id){
         List<DiaChi> listDiaChi = new ArrayList<>();
 
-        String selectquery = "SELECT * FROM " + TABLES_DiaChi +" where Cus_Emp="+ Integer.toString(id);
+        String selectquery = "SELECT * FROM " + TABLES_DiaChi +" where Cus_Emp="+ Integer.toString(id)+" and GiaoNhan=-1";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectquery, null);
@@ -307,6 +307,8 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         db.close();
         return listDiaChi;
     }
+
+
 
     // Lấy tất cả DiaChi
     public List<DiaChi> getAllDiaChi() {
@@ -335,7 +337,18 @@ public class TurtleShipManager extends SQLiteOpenHelper {
 
 
     }
-
+    // lay thong tin dia chi
+    public Cursor getDiaChi(int id){
+        String selectQuery = "SELECT * From " + TABLES_DiaChi +"where Id="+String.valueOf(id);
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) != null) {
+                return cursor;
+            }
+        }
+        return null;
+    }
     //Lấy Id max cửa địa chỉ
     public  int getMaxidAdd(){
         int maxId=-1;
@@ -355,6 +368,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     private static final String TABLES_DonHang = "DonHang";
     private static final String ID_donhang = "Id";
     private static final String KhachHang= "KhachHang";
+    private static final String NguoiNhan= "NguoiNhan";
     private static final String NgayDat= "NgayDat";
     private static final String NgayGiao= "NgayGiao";
     private static final String NgayNhan= "NgayNhan";
@@ -366,6 +380,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     private String SQLQuery4 = "CREATE TABLE " + TABLES_DonHang + " (" +
             ID_donhang + " integer primary key," +
             KhachHang + " String, " +
+            NguoiNhan + " integer, " +
             NgayDat + " String, " +
             NgayGiao + " String, "+
             NgayNhan + " String, "+
@@ -381,6 +396,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(ID, donHang.getId());
         values.put(KhachHang, donHang.getKh());
+        values.put(NguoiNhan, donHang.getNguoiNhan());
         values.put(NgayDat, donHang.getNgayDat());
         values.put(NgayGiao, donHang.getNgayGiao());
         values.put(NgayNhan, donHang.getNgayNhan());
@@ -423,9 +439,23 @@ public class TurtleShipManager extends SQLiteOpenHelper {
 
     }
 
+    //Lấy Id max cửa đơn hàng
+    public  int maxIdOrder(){
+        int maxId=-1;
+        String selectQuery = "SELECT max(Id) FROM " +TABLES_DonHang;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) != null)
+                maxId = Integer.parseInt(cursor.getString(0));
+        }
+        db.close();
+        return maxId;
+    }
+
     //Bảng ChiTietDonHang
     private static final String TABLES_CTDH = "CTDH";
-    private static final String ID_CTDH = "CTDH";
+    private static final String ID_CTDH = "ID";
     private static final String HinhAnh= "HinhAnh";
     private static final String Mota= "Mota";
     private static final String DinhGia= "DinhGia";
@@ -477,7 +507,34 @@ public class TurtleShipManager extends SQLiteOpenHelper {
         db.close();
         return listCTDH;
 
+    }
 
+    //Lấy Id max cửa chi tiết đơn hàng
+    public  int maxIdOrderDetail(){
+        int maxId=-1;
+        String selectQuery = "SELECT max(Id) FROM " +TABLES_CTDH;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) != null)
+                maxId = Integer.parseInt(cursor.getString(0));
+        }
+        db.close();
+        return maxId;
+    }
+
+    //Ham lay show oders
+    public Cursor getOrders(int id){
+        String selectQuery = "SELECT "+TABLES_DonHang+".Id,+"+TABLES_CusEmp+".Ten,"+TABLES_NguoiNhan+".Ten,"+TABLES_NguoiNhan+".SDT,"+TABLES_DonHang+".DCgiaohang,"+TABLES_DonHang+".DCnhanhang FROM " +TABLES_DonHang+","+TABLES_DiaChi+","+TABLES_CusEmp+","+TABLES_NguoiNhan+
+                " where "+TABLES_DonHang+".KhachHang="+String.valueOf(id)+" and "+TABLES_CusEmp+".Id = "+String.valueOf(id)+" and "+TABLES_NguoiNhan+".Id ="+TABLES_DonHang+".NguoiNhan";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            if (cursor.getString(0) != null) {
+                return cursor;
+            }
+        }
+        return null;
     }
 
     public TurtleShipManager(Context context) {

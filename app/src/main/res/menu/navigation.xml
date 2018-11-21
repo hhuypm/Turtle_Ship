@@ -2,19 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
+
+
+
     <item android:title="Công Việc">
         <menu>
-        <group android:checkableBehavior="single">
-            <item
-                android:id="@+id/DonHang"
-                android:title="Don Hang" />
-            <item
-                android:id="@+id/TheoDoiDH"
-                android:title="Theo doi don hang" />
-            <item
-                android:id="@+id/TaoDonHang"
-                android:title="Tao don hang" />
-        </group>
+            <group android:checkableBehavior="single">
+                <item
+                    android:icon="@drawable/tien"
+                    android:id="@+id/DonHang"
+                    android:title="Đơn hàng" />
+                <item
+                    android:icon="@drawable/xe"
+                    android:id="@+id/TheoDoiDH"
+                    android:title="Theo dõi đơn hàng" />
+                <item
+                    android:icon="@drawable/add"
+                    android:id="@+id/TaoDonHang"
+                    android:title="Tạo đơn hàng" />
+            </group>
         </menu>
     </item>
 
@@ -22,11 +28,13 @@
         <menu>
             <group  android:checkableBehavior="single">
                 <item
+                    android:icon="@drawable/tinhphi"
                     android:id="@+id/CachTinhPhi"
-                    android:title="Cach Tinh Phi" />
+                    android:title="Cách tính phí" />
                 <item
+                    android:icon="@drawable/dhcanthanhtoan"
                     android:id="@+id/DonHangCTT"
-                    android:title="Don hang can thanh toan" />
+                    android:title="Đơn hàng cần thanh toán" />
             </group>
         </menu>
     </item>
@@ -35,12 +43,15 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
+                    android:icon="@drawable/out"
                     android:id="@+id/DangXuat"
                     android:title="Đăng Xuất" />
                 <item
+                    android:icon="@drawable/person"
                     android:id="@+id/ThongtinTK"
                     android:title="Thông tin tài khoản" />
                 <item
+                    android:icon="@drawable/lock"
                     android:id="@+id/DoiMatKhau"
                     android:title="Đổi Mật Khẩu" />
             </group>

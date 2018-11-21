@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
     <FrameLayout
         android:layout_width="350dp"
         android:layout_height="450dp"
@@ -16,7 +18,7 @@
         <RelativeLayout
             android:id="@+id/thongtinnguoigui"
             android:layout_width="match_parent"
-            android:layout_height="138dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:background="#79a4ef">
 
@@ -36,13 +38,21 @@
                 android:layout_marginTop="37dp"
                 android:text="TextView"
                 android:textSize="25dp" />
+            <TextView
+                android:id="@+id/tv_phone_sent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_name_sent"
+                android:text="Số điện thoại: "
+                android:layout_marginLeft="5dp"
+                android:textSize="15dp" />
+
 
             <Spinner
                 android:id="@+id/spn_sent_list_add"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
+                android:layout_below="@+id/tv_phone_sent"
                 android:layout_marginBottom="17dp" />
 
         </RelativeLayout>
@@ -55,7 +65,7 @@
             android:background="#79a4ef">
 
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/et_phone_step1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -73,11 +83,11 @@
                 android:textSize="20dp" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/et_name_receive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/editText2"
+                android:layout_below="@+id/et_phone_step1"
                 android:ems="10"
                 android:hint="Tên người nhận"
                 android:inputType="textPersonName" />
@@ -114,7 +124,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/editText4"
+                android:layout_alignBaseline="@+id/et_diachi_step1"
                 android:layout_alignStart="@+id/textView5"
                 android:text="Địa chỉ" />
 
@@ -134,7 +144,7 @@
 
             <TextView
                 android:id="@+id/textView9"
-                android:layout_width="233dp"
+                android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="4dp"
@@ -142,7 +152,7 @@
                 android:text="Tp. Hồ Chí Minh" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/et_diachi_step1"
                 android:layout_width="236dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -152,18 +162,38 @@
                 android:text="Name"
                 android:textSize="13dp" />
 
+            <Button
+                android:id="@+id/button"
+                android:layout_width="108dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="17dp"
+                android:layout_marginTop="35dp"
+                android:background="@layout/border_btn"
+                android:text="Lịch sử"
+                android:textSize="12dp" />
+
         </RelativeLayout>
 
 
     </FrameLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignTop="@+id/btn_next_step_2"
+        android:layout_centerHorizontal="true"
+        android:text="1/3" />
 
     <Button
         android:id="@+id/btn_next_step_2"
         android:layout_width="107dp"
-        android:layout_height="38dp"
+        android:layout_height="29dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="27dp"
+        android:layout_marginBottom="25dp"
         android:layout_marginEnd="20dp"
         android:background="@layout/border_btn"
         android:text="Tiếp theo"

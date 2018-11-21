@@ -7,6 +7,12 @@ public class NguoiNhan {
 
     public NguoiNhan(){}
 
+    public NguoiNhan(int id, String ten , String sdt){
+        this.Id = id;
+        this.Ten = ten;
+        this.SDT = sdt;
+    }
+
     public int getId() {
         return Id;
     }

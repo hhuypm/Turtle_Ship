@@ -4,22 +4,24 @@ import java.util.Date;
 
 public class DonHang {
 
-    private int Id;
-    private int Kh;
-    private String NgayDat;
-    private String NgayGiao;
-    private String NgayNhan;
-    private int DCnhanhang;
-    private int DCgiaohang;
-    private int HTgiaohang;
-    private int Cayso;
-    private int ThanhTien;
+    private int Id=-1;
+    private int Kh=-1;
+    private int NguoiNhan= -1;
+    private String NgayDat="";
+    private String NgayGiao="";
+    private String NgayNhan="";
+    private int DCnhanhang=-1;
+    private int DCgiaohang=-1;
+    private int HTgiaohang=-1;
+    private int Cayso=-1;
+    private int ThanhTien=-1;
 
     public DonHang(){}
-    public DonHang(int id, int kh, String ngayDat, String ngayGiao, String ngayNhan, int dCnhanhang, int dCgiaohang, int hTgiaohang,
+    public DonHang(int id, int kh,int nguoiNhan, String ngayDat, String ngayGiao, String ngayNhan, int dCnhanhang, int dCgiaohang, int hTgiaohang,
                    int cayso, int thanhTien){
         this.Id=id;
         this.Kh=kh;
+        this.NguoiNhan=nguoiNhan;
         this.NgayDat=ngayDat;
         this.NgayGiao=ngayGiao;
         this.NgayNhan=ngayNhan;
@@ -43,6 +45,14 @@ public class DonHang {
 
     public void setKh(int kh) {
         Kh = kh;
+    }
+
+    public int getNguoiNhan() {
+        return NguoiNhan;
+    }
+
+    public void setNguoiNhan(int nguoiNhan) {
+        NguoiNhan = nguoiNhan;
     }
 
     public String getNgayDat() {

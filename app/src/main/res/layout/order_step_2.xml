@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainContent">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -24,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/button7"
                 android:layout_alignTop="@+id/cb_receive"
+                android:checked="true"
                 android:onClick="onCheckboxClicked"
                 android:text="Người gửi trả phí" />
 
@@ -39,7 +42,7 @@
                 android:text="Người nhận trả phí" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/et_mota"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -49,11 +52,11 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="184dp"
                 android:ems="10"
-                android:hint="Nội dung hàng hóa"
+                android:hint="Mô tả hàng hóa"
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/et_dinhgia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -63,11 +66,57 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="239dp"
                 android:ems="10"
-                android:hint="Ghi chú"
+                android:hint="VD:20000VND"
                 android:inputType="textPersonName" />
 
+            <EditText
+                android:id="@+id/et_KhoiLuong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/et_dinhgia"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:ems="10"
+                android:hint="VD: 20Kg"
+                android:inputType="textPersonName" />
+            <EditText
+                android:id="@+id/et_soluong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/et_KhoiLuong"
+                android:layout_marginLeft="2dp"
+                android:layout_marginStart="2dp"
+                android:ems="10"
+                android:hint=""
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/et_dinhgia"
+                android:layout_toEndOf="@+id/et_dinhgia"
+                android:text="Định giá hàng hóa"
+                android:textSize="18sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/et_KhoiLuong"
+                android:layout_toEndOf="@+id/et_KhoiLuong"
+                android:text="Khối Lượng"
+                android:textSize="18sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/et_soluong"
+                android:layout_toEndOf="@+id/et_soluong"
+                android:text="Số Lượng"
+                android:textSize="18sp"/>
+
+
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_next_step_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -96,7 +145,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/button2"
+                android:layout_alignBaseline="@+id/btn_next_step_3"
                 android:layout_centerHorizontal="true"
                 android:text="2/3" />
 

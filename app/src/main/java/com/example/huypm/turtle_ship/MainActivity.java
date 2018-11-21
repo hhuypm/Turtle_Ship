@@ -13,6 +13,8 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import java.util.Calendar;
+import java.util.Date;
 
 
 import com.example.huypm.turtle_ship.DBManager.TurtleShipManager;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); //will hide the title
         setContentView(R.layout.activity_main);
         findViewByIds();
+        Date currentTime = Calendar.getInstance().getTime();
+        Log.d("datetest",String.valueOf(currentTime));
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

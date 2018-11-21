@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.huypm.turtle_ship.DBManager.TurtleShipManager;
+import com.example.huypm.turtle_ship.OnFragmentManager;
 import com.example.huypm.turtle_ship.R;
 import com.example.huypm.turtle_ship.model.Customer_Employee;
 import com.example.huypm.turtle_ship.model.DiaChi;
@@ -25,16 +27,21 @@ import com.example.huypm.turtle_ship.model.DiaChi;
 import java.util.List;
 
 public class order_step1 extends Fragment {
+    TextView tv_name_sent,tv_phone_sent;
+    Spinner spn_sent_list_add,spn_district_rv,spn_state_receive;
+    EditText et_name_receive,et_phone_step1,et_diachi_step1;
     Context context_1;
-    int id_state;
+    OnFragmentManager listener;
+    int id_diachi_kh;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context_1 = getContext();
         View view = inflater.inflate(R.layout.order_step_1,container,false);
         TurtleShipManager db = new TurtleShipManager(getContext());
-        Bundle bundle = getArguments();
-        List<DiaChi> listDiachi = db.getDiaChiId(bundle.getInt("ID"));
+        final Bundle bundle = getArguments();
+
+        final List<DiaChi> listDiachi = db.getDiaChiId(bundle.getInt("ID"));
         Customer_Employee cus_emp_info = db.getCus_Emp(bundle.getInt("ID"));
         String[] listdiachi_spn = new String[listDiachi.size()];
         for (int i=0; i<listDiachi.size();i++ ){
@@ -45,7 +52,9 @@ public class order_step1 extends Fragment {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>( getContext(), R.layout.dropdown_item,listdiachi_spn);
         spn.setAdapter(adapter);
         TextView tv_name = view.findViewById(R.id.tv_name_sent);
+        TextView tv_phone = view.findViewById(R.id.tv_phone_sent);
         tv_name.setText(cus_emp_info.getTen());
+        tv_phone.setText("Số điện thoại: "+cus_emp_info.getSDT());
         //Bo quan va phuong vao
         Spinner spn_district_receive = (Spinner) view.findViewById(R.id.spn_district_receive);
         ArrayAdapter<CharSequence> adapter_district = ArrayAdapter.createFromResource(
@@ -62,6 +71,7 @@ public class order_step1 extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Spinner spn_state_receive = (Spinner) v.findViewById(R.id.spn_state_receive);
                 ArrayAdapter<CharSequence> adapter_state = null;
+                id_diachi_kh = listDiachi.get(position).getId();
                 switch (position){
                     case 0:
                         adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d1, R.layout.dropdown_item);
@@ -152,6 +162,17 @@ public class order_step1 extends Fragment {
             public void onClick(View v) {
                 Fragment fragment = new order_step2();
                 FragmentManager fm = getFragmentManager();
+                Bundle bd = new Bundle();
+                bd = listener.onDataSelected(bundle,"tv_name_sent",tv_name_sent.getText().toString());
+                bd = listener.onDataSelected(bd,"tv_phone_sent",tv_phone_sent.getText().toString());
+                bd = listener.onDataSelected(bd,"spn_sent_list_add",spn_sent_list_add.getSelectedItem().toString());
+                bd = listener.onDataSelected(bd,"spn_district_receive",spn_district_rv.getSelectedItem().toString());
+                bd = listener.onDataSelected(bd,"spn_state_receive",spn_state_receive.getSelectedItem().toString());
+                bd = listener.onDataSelected(bd,"id_diachi_kh",String.valueOf(id_diachi_kh));
+                bd = listener.onDataSelected(bd,"et_name_receive",et_name_receive.getText().toString());
+                bd = listener.onDataSelected(bd,"et_phone_step1",et_phone_step1.getText().toString());
+                bd = listener.onDataSelected(bd,"et_diachi_step1",et_diachi_step1.getText().toString());
+                fragment.setArguments(bd);
                 FragmentTransaction ft =  fm.beginTransaction();
                 ft.addToBackStack(null);
                 ft.replace(R.id.content_main,fragment);
@@ -159,6 +180,26 @@ public class order_step1 extends Fragment {
                 ft.commit();
             }
         });
+
+        tv_name_sent = view.findViewById(R.id.tv_name_sent);
+
+        tv_phone_sent = view.findViewById(R.id.tv_phone_sent);
+
+        spn_sent_list_add = view.findViewById(R.id.spn_sent_list_add);
+
+        spn_district_rv = view.findViewById(R.id.spn_district_receive);
+
+        spn_state_receive = view.findViewById(R.id.spn_state_receive);
+
+        et_name_receive = view.findViewById(R.id.et_name_receive);
+
+        et_phone_step1 = view.findViewById(R.id.et_phone_step1);
+
+        et_diachi_step1 = view.findViewById(R.id.et_diachi_step1);
+
+        Fragment fm = new order_step2();
+
+
         return view;
 
     }
@@ -168,6 +209,16 @@ public class order_step1 extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("order_step_1");
+        getActivity().setTitle("Tạo đơn hàng");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentManager ){
+            listener= (OnFragmentManager) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement onViewSelected");
+        }
     }
 }

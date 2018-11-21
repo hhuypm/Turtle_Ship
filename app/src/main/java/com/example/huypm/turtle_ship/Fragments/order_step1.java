@@ -80,50 +80,70 @@ public class order_step1 extends Fragment {
                         adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d2, R.layout.dropdown_item);
                         break;
                     case 2:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d3, R.layout.dropdown_item);
                         break;
                     case 3:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d4, R.layout.dropdown_item);
                         break;
                     case 4:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d5, R.layout.dropdown_item);
                         break;
                     case 5:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d6, R.layout.dropdown_item);
                         break;
                     case 6:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d7, R.layout.dropdown_item);
                         break;
                     case 7:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d8, R.layout.dropdown_item);
                         break;
                     case 8:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d9, R.layout.dropdown_item);
                         break;
                     case 9:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d10, R.layout.dropdown_item);
                         break;
                     case 10:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d11, R.layout.dropdown_item);
                         break;
                     case 11:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d12, R.layout.dropdown_item);
                         break;
                     case 12:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dGoVap, R.layout.dropdown_item);
                         break;
                     case 13:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dBinhThanh, R.layout.dropdown_item);
                         break;
                     case 14:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dThuDuc, R.layout.dropdown_item);
                         break;
                     case 15:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dTanBinh, R.layout.dropdown_item);
                         break;
                     case 16:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dTanPhu, R.layout.dropdown_item);
                         break;
                     case 17:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dPhuNhuan, R.layout.dropdown_item);
                         break;
                     case 18:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dBinhTan, R.layout.dropdown_item);
                         break;
                     case 19:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dCuChi, R.layout.dropdown_item);
                         break;
                     case 20:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dHoocMon, R.layout.dropdown_item);
                         break;
                     case 21:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dBinhChanh, R.layout.dropdown_item);
                         break;
                     case 22:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dNhaBe, R.layout.dropdown_item);
                         break;
                     case 23:
-                        break;
-                    case 24:
+                        adapter_state = ArrayAdapter.createFromResource(context_1, R.array.dCanGio, R.layout.dropdown_item);
                         break;
                     default:
                 }

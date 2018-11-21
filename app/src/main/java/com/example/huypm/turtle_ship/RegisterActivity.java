@@ -1,7 +1,10 @@
 package com.example.huypm.turtle_ship;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.huypm.turtle_ship.DBManager.TurtleShipManager;
 import com.example.huypm.turtle_ship.model.Customer_Employee;
@@ -32,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity {
     Spinner spn_state;
     EditText et_address;
     Context context = this;
+    Dialog dialog;
+    AlertDialog alertDialog;
     TurtleShipManager db = new TurtleShipManager(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,50 +66,70 @@ public class RegisterActivity extends AppCompatActivity {
                         adapter1 = ArrayAdapter.createFromResource(context, R.array.d2, R.layout.dropdown_item);
                         break;
                     case 2:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d3, R.layout.dropdown_item);
                         break;
                     case 3:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d4, R.layout.dropdown_item);
                         break;
                     case 4:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d5, R.layout.dropdown_item);
                         break;
                     case 5:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d6, R.layout.dropdown_item);
                         break;
                     case 6:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d7, R.layout.dropdown_item);
                         break;
                     case 7:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d8, R.layout.dropdown_item);
                         break;
                     case 8:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d9, R.layout.dropdown_item);
                         break;
                     case 9:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d10, R.layout.dropdown_item);
                         break;
                     case 10:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d11, R.layout.dropdown_item);
                         break;
                     case 11:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.d12, R.layout.dropdown_item);
                         break;
                     case 12:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dGoVap, R.layout.dropdown_item);
                         break;
                     case 13:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dBinhThanh, R.layout.dropdown_item);
                         break;
                     case 14:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dThuDuc, R.layout.dropdown_item);
                         break;
                     case 15:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dTanBinh, R.layout.dropdown_item);
                         break;
                     case 16:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dTanPhu, R.layout.dropdown_item);
                         break;
                     case 17:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dPhuNhuan, R.layout.dropdown_item);
                         break;
                     case 18:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dBinhTan, R.layout.dropdown_item);
                         break;
                     case 19:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dCuChi, R.layout.dropdown_item);
                         break;
                     case 20:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dHoocMon, R.layout.dropdown_item);
                         break;
                     case 21:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dBinhChanh, R.layout.dropdown_item);
                         break;
                     case 22:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dNhaBe, R.layout.dropdown_item);
                         break;
                     case 23:
-                        break;
-                    case 24:
+                        adapter1 = ArrayAdapter.createFromResource(context, R.array.dCanGio, R.layout.dropdown_item);
                         break;
                     default:
                 }
@@ -128,6 +154,7 @@ public class RegisterActivity extends AppCompatActivity {
         btn_accpect_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+           if (db.Check_Register(et_phone.getText().toString(), et_mail.getText().toString())==1){
                 //chỗ này là đăng ký t mới chỉ có xét pass 2 cái giống nhau thôi. M làm cho t xét sdt thì chỉ được ghi số, còn gmail phải có @, còn nếu khó thì để sau chèn dialog vô chỗ else, còn thành công thì this.finish đó
                 if (et_pass.getText().toString().equals(et_re_pass.getText().toString())) {
                     int maxIdCus_emp = db.getMaxIdCus_Emp();
@@ -137,17 +164,76 @@ public class RegisterActivity extends AppCompatActivity {
                     db.addCus_Emp(new Customer_Employee(maxIdCus_emp + 1, et_name.getText().toString(), et_phone.getText().toString(), et_mail.getText().toString(), 0));
                     db.addUser(new Users(maxIdUser+1,maxIdCus_emp+1,et_pass.getText().toString()));
                     db.addDiaChi(new DiaChi(maxIdAddress+1,maxIdCus_emp+1,"TP. Hồ Chí Minh",spn_district.getSelectedItem().toString(),spn_state.getSelectedItem().toString(),et_address.getText().toString(),1,1));
-                    RegisterActivity.this.finish();
+
+                    showAlertDialog();
+
                 }
                 else {
-                    Intent intent = new Intent(getApplicationContext(),MainContent.class);
-                    startActivity(intent);
-                }
+                    et_pass.setText("");
+                    et_re_pass.setText("");
+                    showAlertDialog_DKTB();
+                }}
+                else {
+               et_pass.setText("");
+               et_re_pass.setText("");
+               showAlertDialog_DKTB2();
+           }
 
             }
         });
     }
 
+    public void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông Báo");
+        builder.setMessage("Đăng Ký Thành Công");
+        builder.setCancelable(false);
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                RegisterActivity.this.finish();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+    }
+    public void showAlertDialog_DKTB(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông Báo");
+        builder.setMessage("Re-Pass Không trùng khớp");
+        builder.setCancelable(false);
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+    }
+    public void showAlertDialog_DKTB2(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông Báo");
+        builder.setMessage("Email hoặc SĐT đã được dùng để đăng kí");
+        builder.setCancelable(false);
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+    }
     public  void FindViewByIds(){
         btn_back = (Button) findViewById(R.id.btn_back);
         btn_accpect_register = (Button) findViewById(R.id.btn_accept_register);

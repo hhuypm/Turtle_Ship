@@ -1,6 +1,9 @@
 package com.example.huypm.turtle_ship;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_login;
     EditText et_account;
     EditText et_pass;
+    private Dialog dialog;
     TurtleShipManager db = new TurtleShipManager(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +47,18 @@ public class MainActivity extends AppCompatActivity {
                 if (db.Sign_in(et_account.getText().toString(),et_pass.getText().toString())!= -1) {
                     int id = db.Sign_in(et_account.getText().toString(),et_pass.getText().toString());
                     Intent intent = new Intent(getApplicationContext(), MainContent.class);
-
                     Bundle bundle = new Bundle();
                     bundle.putInt("ID",id);
                     intent.putExtra("ID",id);
-                    startActivity(intent);
+
                     Log.d("test","dung r");
+                    showAlertDialog_DN();
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                    startActivity(intent);
+
                     Log.d("test","sai r");
+                    showAlertDialog_DNTB();
                 }
             }
         });
@@ -70,6 +75,42 @@ public class MainActivity extends AppCompatActivity {
         TurtleShipManager db = new TurtleShipManager(this);
     }
 
+    public void showAlertDialog_DN(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông Báo");
+        builder.setMessage("Đăng Nhập Thành Công");
+        builder.setCancelable(false);
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent intent = new Intent(getApplicationContext(), MainContent.class);
+                startActivity(intent);
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+    }
+    public void showAlertDialog_DNTB(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Thông Báo");
+        builder.setMessage("Đăng Nhập Thất Bại");
+        builder.setCancelable(false);
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+
+    }
     public void findViewByIds(){
         btn_register = (Button) findViewById(R.id.btn_register);
         btn_login = (Button) findViewById(R.id.btn_sign_in);

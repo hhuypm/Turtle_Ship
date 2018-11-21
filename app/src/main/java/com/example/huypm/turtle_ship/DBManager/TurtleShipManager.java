@@ -339,7 +339,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
     }
     // lay thong tin dia chi
     public Cursor getDiaChi(int id){
-        String selectQuery = "SELECT * From " + TABLES_DiaChi +"where Id="+String.valueOf(id);
+        String selectQuery = "SELECT * From " + TABLES_DiaChi +" where Id="+String.valueOf(id);
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
@@ -525,7 +525,7 @@ public class TurtleShipManager extends SQLiteOpenHelper {
 
     //Ham lay show oders
     public Cursor getOrders(int id){
-        String selectQuery = "SELECT "+TABLES_DonHang+".Id,+"+TABLES_CusEmp+".Ten,"+TABLES_NguoiNhan+".Ten,"+TABLES_NguoiNhan+".SDT,"+TABLES_DonHang+".DCgiaohang,"+TABLES_DonHang+".DCnhanhang FROM " +TABLES_DonHang+","+TABLES_DiaChi+","+TABLES_CusEmp+","+TABLES_NguoiNhan+
+        String selectQuery = "SELECT "+TABLES_DonHang+".Id _id,"+TABLES_CusEmp+".Ten,"+TABLES_NguoiNhan+".Ten,"+TABLES_NguoiNhan+".SDT,"+TABLES_DonHang+".DCgiaohang,"+TABLES_DonHang+".DCnhanhang FROM " +TABLES_DonHang+","+TABLES_CusEmp+","+TABLES_NguoiNhan+
                 " where "+TABLES_DonHang+".KhachHang="+String.valueOf(id)+" and "+TABLES_CusEmp+".Id = "+String.valueOf(id)+" and "+TABLES_NguoiNhan+".Id ="+TABLES_DonHang+".NguoiNhan";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

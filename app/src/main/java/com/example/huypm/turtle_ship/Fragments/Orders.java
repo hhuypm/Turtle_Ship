@@ -22,7 +22,7 @@ import com.example.huypm.turtle_ship.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Orders extends Fragment {
+public class Orders extends Fragment  {
     private List<Cursor> items;
 
 
@@ -34,9 +34,9 @@ public class Orders extends Fragment {
         final Bundle bundle = getArguments();
         Cursor cursor = db.getOrders(bundle.getInt("ID"));
         ListView lv = view.findViewById(R.id.lv_orders);
-       // adapter_itemlist itemlist  = new adapter_itemlist(view.getContext(),cursor);
-      //  lv.setAdapter(itemlist);
-      //  itemlist.changeCursor(cursor);
+        adapter_itemlist itemlist  = new adapter_itemlist(getActivity(),cursor);
+        lv.setAdapter(itemlist);
+        itemlist.changeCursor(cursor);
         FloatingActionButton add_order = (FloatingActionButton) view.findViewById(R.id.add_order);
         add_order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +47,7 @@ public class Orders extends Fragment {
                 fragment.setArguments(bundle);
                 ft.addToBackStack(null);
                 ft.replace(R.id.content_main,fragment);
+                ft.commit();
             }
         });
         return view;
@@ -56,4 +57,6 @@ public class Orders extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle("Đơn hàng");
     }
+
+
 }

@@ -56,13 +56,13 @@ public class MainActivity extends AppCompatActivity {
                     bundle.putInt("ID",id);
                     intent.putExtra("ID",id);
 
-                    Log.d("test",String.valueOf(id));
+                    Log.d("item_list",String.valueOf(id));
                     showAlertDialog_DN();
                     startActivity(intent);
                 }
                 else {
 
-                    Log.d("test","sai r");
+                    Log.d("item_list","sai r");
                     showAlertDialog_DNTB();
                 }
             }

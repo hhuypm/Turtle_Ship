@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.example.huypm.turtle_ship.DBManager.TurtleShipManager;
 import com.example.huypm.turtle_ship.R;
 
-import java.util.List;
-
 public class adapter_itemlist extends CursorAdapter {
     public adapter_itemlist(Context context, Cursor cursor) {
         super(context, cursor, 0);
@@ -24,7 +22,7 @@ public class adapter_itemlist extends CursorAdapter {
     // you don't bind any data to the view at this point.
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.oders, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.item_list, parent, false);
     }
 
     // The bindView method is used to bind all data to a given view
@@ -37,15 +35,14 @@ public class adapter_itemlist extends CursorAdapter {
         TextView lv_DiachiNhan = (TextView) view.findViewById(R.id.lv_DiachiNhan);
         TextView lv_Sodienthoai = (TextView) view.findViewById(R.id.lv_Sodienthoai);
         // Extract properties from cursor
-        if (cursor.getString(0)!=null){
-            lv_Ten.setText(cursor.getString(2));
-            TurtleShipManager db = new TurtleShipManager(context);
-            Cursor dcgui = db.getDiaChi(cursor.getInt(4));
-            Cursor dcnhan = db.getDiaChi(cursor.getInt(5));
-            lv_DiachiGui.setText("Địa chỉ gửi hàng:"+dcgui.getString(5)+", "+dcgui.getString(4)+", "+dcgui.getString(3));
-            lv_DiachiNhan.setText("Địa chỉ nhận hàng:"+dcnhan.getString(5)+", "+dcnhan.getString(4)+", "+dcnhan.getString(3));
-            lv_Sodienthoai.setText(cursor.getString(3));
-        }
+                lv_Ten.setText(cursor.getString(2).toString());
+                TurtleShipManager db = new TurtleShipManager(context);
+                Cursor dcgui = db.getDiaChi(cursor.getInt(4));
+                Cursor dcnhan = db.getDiaChi(cursor.getInt(5));
+                lv_DiachiGui.setText("Địa chỉ gửi hàng:"+dcgui.getString(5)+", "+dcgui.getString(4)+", "+dcgui.getString(3));
+                lv_DiachiNhan.setText("Địa chỉ nhận hàng:"+dcnhan.getString(5)+", "+dcnhan.getString(4)+", "+dcnhan.getString(3));
+                lv_Sodienthoai.setText(cursor.getString(3));
+
 
     }
 }

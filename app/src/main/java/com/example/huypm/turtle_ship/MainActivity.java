@@ -50,16 +50,17 @@ public class MainActivity extends AppCompatActivity {
                 // chỗ này là đăng nhập
                 if (db.Sign_in(et_account.getText().toString(),et_pass.getText().toString())!= -1) {
                     int id = db.Sign_in(et_account.getText().toString(),et_pass.getText().toString());
+
                     Intent intent = new Intent(getApplicationContext(), MainContent.class);
                     Bundle bundle = new Bundle();
                     bundle.putInt("ID",id);
                     intent.putExtra("ID",id);
 
-                    Log.d("test","dung r");
+                    Log.d("test",String.valueOf(id));
                     showAlertDialog_DN();
+                    startActivity(intent);
                 }
                 else {
-                    Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
 
                     Log.d("test","sai r");
                     showAlertDialog_DNTB();
@@ -88,8 +89,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                Intent intent = new Intent(getApplicationContext(), MainContent.class);
-                startActivity(intent);
             }
         });
         AlertDialog alertDialog = builder.create();
@@ -106,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
             }
         });
         AlertDialog alertDialog = builder.create();

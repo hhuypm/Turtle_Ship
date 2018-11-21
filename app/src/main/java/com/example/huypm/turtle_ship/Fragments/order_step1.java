@@ -51,6 +51,17 @@ public class order_step1 extends Fragment {
         Spinner spn = view.findViewById(R.id.spn_sent_list_add);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>( getContext(), R.layout.dropdown_item,listdiachi_spn);
         spn.setAdapter(adapter);
+        spn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                id_diachi_kh = listDiachi.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         TextView tv_name = view.findViewById(R.id.tv_name_sent);
         TextView tv_phone = view.findViewById(R.id.tv_phone_sent);
         tv_name.setText(cus_emp_info.getTen());
@@ -71,7 +82,6 @@ public class order_step1 extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Spinner spn_state_receive = (Spinner) v.findViewById(R.id.spn_state_receive);
                 ArrayAdapter<CharSequence> adapter_state = null;
-                id_diachi_kh = listDiachi.get(position).getId();
                 switch (position){
                     case 0:
                         adapter_state = ArrayAdapter.createFromResource(context_1, R.array.d1, R.layout.dropdown_item);

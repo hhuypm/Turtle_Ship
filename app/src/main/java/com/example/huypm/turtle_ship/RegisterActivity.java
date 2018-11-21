@@ -163,7 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
                     //Thêm vào cơ sở dữ liệu
                     db.addCus_Emp(new Customer_Employee(maxIdCus_emp + 1, et_name.getText().toString(), et_phone.getText().toString(), et_mail.getText().toString(), 0));
                     db.addUser(new Users(maxIdUser+1,maxIdCus_emp+1,et_pass.getText().toString()));
-                    db.addDiaChi(new DiaChi(maxIdAddress+1,maxIdCus_emp+1,"TP. Hồ Chí Minh",spn_district.getSelectedItem().toString(),spn_state.getSelectedItem().toString(),et_address.getText().toString(),1,1));
+                    db.addDiaChi(new DiaChi(maxIdAddress+1,maxIdCus_emp+1,"TP. Hồ Chí Minh",spn_district.getSelectedItem().toString(),spn_state.getSelectedItem().toString(),et_address.getText().toString(),-1,1));
 
                     showAlertDialog();
 
